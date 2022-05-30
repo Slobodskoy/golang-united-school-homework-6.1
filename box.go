@@ -39,7 +39,13 @@ func (b *box) GetByIndex(i int) (Shape, error) {
 func (b *box) ExtractByIndex(i int) (Shape, error) {
 	if i >= 0 && i < len(b.shapes) {
 		result := b.shapes[i]
-		b.shapes = append(b.shapes[0:i], b.shapes[i:len(b.shapes)]...)
+		newShapes := make([]Shape, 0)
+		for ind, s := range b.shapes {
+			if ind != i {
+				newShapes = append(newShapes, s)
+			}
+		}
+		b.shapes = newShapes
 		return result, nil
 	}
 	return nil, fmt.Errorf("shape by index doesn't exist or index went out of the range")
